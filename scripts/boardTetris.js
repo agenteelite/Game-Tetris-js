@@ -1,4 +1,4 @@
-import { Grid } from '/scripts/grid.js'
+import { Grid } from './scripts/grid.js'
 
 export class BoardTetris extends Grid {
     constructor (Canvas, rows, columns, cellSize, space) {
@@ -72,3 +72,4 @@ export class BoardNext extends Grid {
         }
     }
 }
+

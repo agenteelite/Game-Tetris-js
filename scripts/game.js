@@ -129,22 +129,27 @@ export class Game {
     //haay que buscaar el error otra vez :"v"
     
     placeTetromino() {
-        const tetrominoPositions = this.currentTetromino.currentPosition();
-        for (let i = 0; i < tetrominoPositions.length; i++) {
+    const tetrominoPositions = this.currentTetromino.currentPosition();
+    for (let i = 0; i < tetrominoPositions.length; i++) {
+        // --- PROTECCIÓN CONTRA GAME OVER ---
+        if (tetrominoPositions[i].row >= 0 && tetrominoPositions[i].row < this.boardTetris.rows) {
             this.boardTetris.matriz
                 [tetrominoPositions[i].row]
                 [tetrominoPositions[i].column] = this.currentTetromino.id;
         }
-        this.boardTetris.clearfullRows();
-
-        if(this.boardTetris.gameOver()) {
-            return true
-        } else {
-            this.currentTetromino = this.tetrominoBag.nextTetromino();
-            this.next.listTetrominos = this.tetrominoBag.getThreeNextT();
-            this.next.updateMatriz();
-        }
     }
+
+    this.boardTetris.clearfullRows();
+
+    if (this.boardTetris.gameOver()) {
+        console.log("GAME OVER");
+        return true;
+    } else {
+        this.currentTetromino = this.tetrominoBag.nextTetromino();
+        this.next.listTetrominos = this.tetrominoBag.getThreeNextT();
+        this.next.updateMatriz();
+    }
+}
 
     //posiblemente lo deje ya que no afecta en nada
     
@@ -186,3 +191,4 @@ export class Game {
     //Hasta aqui
 
 }
+

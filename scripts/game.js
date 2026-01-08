@@ -1,7 +1,7 @@
 
-import { TetrominoBag } from "/scripts/Tetromino.js";
+import { TetrominoBag } from "./Tetromino.js";
 
-import { BoardTetris, BoardNext } from "/scripts/boardTetris.js";
+import { BoardTetris, BoardNext } from "./boardTetris.js";
 
 export class Game {
     constructor(canvas, rows, columns, cellSize, space, canvasNext) {
@@ -184,4 +184,5 @@ export class Game {
     }
         
     //Hasta aqui
+
 }

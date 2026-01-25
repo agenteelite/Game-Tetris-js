@@ -1,4 +1,4 @@
-import { Grid } from './grid.js'
+import { Grid } from '/scripts/grid.js'
 export { Position, Tetromino, TetrominoType, TetrominoBag }
 class Position {
     constructor(row, column) {
@@ -257,6 +257,5 @@ class TetrominoBag {
         this.threeNextT = [];
         this.init();
     }
-
 }
 

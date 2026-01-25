@@ -1,5 +1,5 @@
 import { TetrominoBag } from './Tetromino.js';
-import { Tetromino } from './Tetromino.js';
+import { Tetromino } from '/scripts/Tetromino.js';
 
 export class Grid {
     constructor(Canvas, rows, columns, cellSize, space) {
@@ -98,5 +98,7 @@ export class Grid {
     }
 }
 
+ 
 
  
+

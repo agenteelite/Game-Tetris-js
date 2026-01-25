@@ -1,7 +1,7 @@
 
-import { TetrominoBag } from "./Tetromino.js";
+import { TetrominoBag } from "/scripts/Tetromino.js";
 
-import { BoardTetris, BoardNext } from "./boardTetris.js";
+import { BoardTetris, BoardNext } from "/scripts/boardTetris.js";
 
 export class Game {
     constructor(canvas, rows, columns, cellSize, space, canvasNext) {
@@ -15,6 +15,10 @@ export class Game {
         this.lastTime2 = 0;
         //error arreglado
         this.next = new BoardNext(canvasNext, 8, 4, cellSize, space, this.tetrominoBag.getThreeNextT());
+
+        //Puntaje del juego
+        this.score = 0;
+        this.gameOver= false;
     }
     update() {
 
@@ -124,32 +128,40 @@ export class Game {
                 this.keys.down = false;
             }
         });
+        //Evento para soltar el tetromino al hacer click
+        window.addEventListener("click", () => {
+            if(!this.gameOver){
+                this.dropBlock();
+            }
+        });
     }
     //me aparece la paantalla pero en negro
     //haay que buscaar el error otra vez :"v"
     
     placeTetromino() {
-    const tetrominoPositions = this.currentTetromino.currentPosition();
-    for (let i = 0; i < tetrominoPositions.length; i++) {
-        // --- PROTECCIÓN CONTRA GAME OVER ---
-        if (tetrominoPositions[i].row >= 0 && tetrominoPositions[i].row < this.boardTetris.rows) {
+        const tetrominoPositions = this.currentTetromino.currentPosition();
+        for (let i = 0; i < tetrominoPositions.length; i++) {
             this.boardTetris.matriz
                 [tetrominoPositions[i].row]
                 [tetrominoPositions[i].column] = this.currentTetromino.id;
         }
-    }
+        //ACTUALIZACION DEL PUNTAJE
+        //se puede modificar su valor a gustos
+        this.score += this.boardTetris.clearfullRows()*20;
 
-    this.boardTetris.clearfullRows();
+        if(this.boardTetris.gameOver()) {
+            //se muestra el game over despues de medio segundo
+            setTimeout(() => {
+                this.gameOver = true;
+            }, 500);
 
-    if (this.boardTetris.gameOver()) {
-        console.log("GAME OVER");
-        return true;
-    } else {
-        this.currentTetromino = this.tetrominoBag.nextTetromino();
-        this.next.listTetrominos = this.tetrominoBag.getThreeNextT();
-        this.next.updateMatriz();
+            return true
+        } else {
+            this.currentTetromino = this.tetrominoBag.nextTetromino();
+            this.next.listTetrominos = this.tetrominoBag.getThreeNextT();
+            this.next.updateMatriz();
+        }
     }
-}
 
     //posiblemente lo deje ya que no afecta en nada
     
@@ -183,12 +195,28 @@ export class Game {
                 this.boardTetris.cellSize, "rgba(0,0,0,0.25)", "white", 20);
         }
     }
+    //Metodo para reiniciar el juego
+    reset(){
+        this.gameOver = false;
+        this.boardTetris.restartmatriz();
+        this.score = 0;
+        this.tetrominoBag.reset();
+        this.currentTetromino = this.tetrominoBag.nextTetromino();
+
+        //Actualizar el siguiente tablero
+        this.next.restartmatriz();
+        this.next.listTetrominos = this.tetrominoBag.getThreeNextT();
+        this.next.updateMatriz();
+        this.next.draw2();
+    }
     dropBlock(){
         this.currentTetromino.move(this.tetrominoDrop(), 0);
         this.placeTetromino();
     }
         
     //Hasta aqui
+}
 
 }
+
 

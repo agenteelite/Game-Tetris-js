@@ -1,4 +1,4 @@
-import { Game } from 'scripts/game.js';
+import { Game } from './game.js';
 
 const canvasTetris = document.getElementById("canvas-tetris");
 const canvasNext = document.getElementById("canvas-next");
